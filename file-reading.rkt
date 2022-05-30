@@ -1,9 +1,14 @@
 #lang racket
 
+(require "tablero-size.rkt")
+
 (provide POSN-LIST)
 (provide (struct-out posn))
+(provide TABLERO-SIZE)
 
 (define-struct posn [x y])
+
+(if (not (system (string-append "knight-tour-solver.exe " (number->string TABLERO-SIZE)))) (exit) #true)
 
 (define (list->posn l) (make-posn (first l) (first (rest l)) ))
 

@@ -17,6 +17,7 @@
 (define CELDA-ANCHO (image-height KNIGHT))
 (define CELDA-MARGEN 10)
 (define CELDA (square (+ CELDA-ANCHO CELDA-MARGEN) "outline" "black"))
+(define CELDA-VISITADA (frame (square (+ CELDA-ANCHO CELDA-MARGEN) "solid" "gray")))
 
 (define (gen-fila w) (cond [(not (integer? w)) (error "The size must be an integer")]
                            [(negative? w) (error "Negative size")]
@@ -28,7 +29,7 @@
 (define (gen-tablero w h) (cond [(zero? h) empty-image]
                               [else (overlay/xy (gen-fila w) 0 (image-height CELDA) (gen-tablero w (sub1 h)))]))
 
-(define TABLERO-SIZE 8)
+;(define TABLERO-SIZE 8)
 
 (define TABLERO (gen-tablero TABLERO-SIZE TABLERO-SIZE))
 (define TABLERO-MARGEN 10)
