@@ -145,7 +145,7 @@ int main(int argc, char** argv)
   
   FILE* output_file;
 
-  if(!(output_file = fopen("knight.txt","w")))
+  if(!(output_file = fopen("knight-tour.txt","w")))
   {
     perror("Unable to open knight.txt");
     exit(EXIT_FAILURE);
@@ -160,7 +160,7 @@ int main(int argc, char** argv)
   for (auto p : knight_tour)
   {
     ii np = pair_sum(p,mkp(1,1));
-    fprintf(output_file,"%d,%d)\n",np.first,np.second);
+    fprintf(output_file,"(%d %d)\n",np.first,np.second);
   }
 
   fclose(output_file);
