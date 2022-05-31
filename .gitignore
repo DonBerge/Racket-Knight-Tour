@@ -45,3 +45,9 @@ _zuo_tc.db
 *.png
 *.gif
 !example.gif
+
+# Executable files
+.exe
+
+# C++ output txt
+knight-tour.txt

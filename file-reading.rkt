@@ -9,7 +9,7 @@
 
 (define-struct posn [x y])
 
-(if (not (system (string-append "knight-tour-solver.exe " (number->string TABLERO-SIZE)))) (exit) #true)
+(if (not (system (string-append "knight-tour-solver.exe " (number->string TABLERO-SIZE)))) (error "Cannot open knight-tour-solver.exe, try recompiling knight-tour-solver.cpp") #true)
 
 (define (list->posn l) (make-posn (first l) (first (rest l)) ))
 
