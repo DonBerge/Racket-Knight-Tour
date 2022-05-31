@@ -1,7 +1,7 @@
 # Racket-Knight-Tour
 
 <p align="center">
-![Demostración](example.gif)
+  <img src="example.gif" alt="Ejemplo">
 </p>
 
 Programa hecho en Racket que muestra soluciones del [Problema del caballo](https://es.wikipedia.org/wiki/Problema_del_caballo)
