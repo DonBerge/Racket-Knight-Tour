@@ -10,12 +10,14 @@
 (provide place-knight)
 
 (define KNIGHT (bitmap "transparent-knight.png"))
-(define KNIGHT-SCALE-FACTOR 0.05)
+(define KNIGHT-SCALE-FACTOR (expt TABLERO-SIZE (/ 3 -2)))
 
-(set! KNIGHT (scale 0.05 KNIGHT))
+KNIGHT-SCALE-FACTOR
+
+(set! KNIGHT (scale KNIGHT-SCALE-FACTOR KNIGHT))
 
 (define CELDA-ANCHO (image-height KNIGHT))
-(define CELDA-MARGEN 10)
+(define CELDA-MARGEN (* 10 (expt (log TABLERO-SIZE 10) 0.5)))
 (define CELDA (square (+ CELDA-ANCHO CELDA-MARGEN) "outline" "black"))
 (define CELDA-VISITADA (frame (square (+ CELDA-ANCHO CELDA-MARGEN) "solid" "gray")))
 
@@ -32,8 +34,8 @@
 ;(define TABLERO-SIZE 8)
 
 (define TABLERO (gen-tablero TABLERO-SIZE TABLERO-SIZE))
-(define TABLERO-MARGEN 10)
-(set! TABLERO (overlay/xy TABLERO 0 0 (rectangle (+ (image-width TABLERO) 10) (+ (image-height TABLERO) 10) "solid" "white")))
+(define TABLERO-MARGEN 0)
+(set! TABLERO (overlay/xy TABLERO 0 0 (rectangle (+ (image-width TABLERO) TABLERO-MARGEN) (+ (image-height TABLERO) TABLERO-MARGEN) "solid" "white")))
 
 (define (place-image/posn img pt bg) (place-image img (posn-x pt) (posn-y pt) bg))
 
@@ -44,6 +46,8 @@
 (define (place-knight/posn p bg) (place-knight (posn-x p) (posn-y p) bg))
 
 ;; INTERACTIVIDAD
+
+(define FRAME_DELAY 0.5)
 
 (define-struct estado [posn-lista tablero])
 
@@ -56,7 +60,11 @@
                       (make-estado (rest l)
                                    (let*
                                        ([knight-posn (get-knight-coords (sub1posn (first l)))] [knight-next-posn (if (empty? (rest l)) knight-posn (get-knight-coords (sub1posn(first (rest l)))))])
-                                       (scene+line tablero (posn-x knight-posn) (posn-y knight-posn) (posn-x knight-next-posn) (posn-y knight-next-posn) "black")
+                                       (place-image (circle (/ (image-width CELDA) 8) "solid" (if (= (length l) (length POSN-LIST)) "blue" "red"))
+                                                    (posn-x knight-posn)
+                                                    (posn-y knight-posn)
+                                                    (scene+line tablero (posn-x knight-posn) (posn-y knight-posn) (posn-x knight-next-posn) (posn-y knight-next-posn) "black")
+                                                    )
                                      )
                                    )
                     )
@@ -64,8 +72,17 @@
 
 (define (sin-movimientos? s) (empty? (estado-posn-lista s)))
 
+COORDS-LIST
+
+(define (escena-final s) (let*
+                             ([tablero (estado-tablero s)] [font-size 20])
+                             (escena (make-estado (reverse POSN-LIST) tablero))
+                           )
+  )
+
 (big-bang (make-estado POSN-LIST TABLERO)
   [to-draw escena]
-  [on-tick mover 1]
-  [stop-when sin-movimientos?]
+  [record? #f];(if (<= TABLERO-SIZE 8) "./images" #false)]
+  [on-tick mover FRAME_DELAY]
+  [stop-when sin-movimientos? escena-final]
 )

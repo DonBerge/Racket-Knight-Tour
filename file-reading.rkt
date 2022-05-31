@@ -3,6 +3,7 @@
 (require "tablero-size.rkt")
 
 (provide POSN-LIST)
+(provide COORDS-LIST)
 (provide (struct-out posn))
 (provide TABLERO-SIZE)
 

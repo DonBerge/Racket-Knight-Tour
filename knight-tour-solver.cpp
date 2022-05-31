@@ -82,7 +82,10 @@ vector<ii> solve_knight_tour(int n)
 
   vector<ii> knight_tour;
 
-  ii pos(random_between(0,n), random_between(0,n));
+  ii pos(random_between(0,n-1), random_between(0,n-1));
+
+  if(n & 1)
+    pos = mkp((n-1)*random_between(0,1),(n-1)*random_between(0,1));
 
   knight_tour.pb(pos);
 
